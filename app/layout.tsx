@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={poppins.className}>
         <ThemeProvider attribute="class">
-          <Theme appearance="light" accentColor="jade">
+          <Theme accentColor="jade">
             {children}
             {/* <ThemePanel /> */}
           </Theme>
