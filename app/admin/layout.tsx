@@ -1,6 +1,5 @@
 import { ThemeChanger } from "@/components/theme_changer/ThemeChanger.component";
 import { DashboardSideLinks } from "@/sections/dashboard/DashboardSideLinks.section";
-import { Box, Flex, Heading } from "@radix-ui/themes";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -16,34 +15,64 @@ export default function DashboardLayout({
 }>) {
   return (
     <>
-      <Box
-        asChild
-        color="jade"
-        height={"100%"}
-        className="bg-green-600 w-36 py-4 fixed top-0 left-0 z-[1]"
-      >
-        <aside>
-          <Flex direction={"column"} height={"100%"}>
-            <Heading as="h2" align={"center"} mb={"4"}>
+      <div className="drawer md:drawer-open">
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+
+        {/* Page content here */}
+        <article className="drawer-content p-4">
+          <div className="flex md:hidden justify-between items-center mb-4">
+            <span className="text-xl font-bold">Caram</span>
+            <label
+              htmlFor="my-drawer"
+              className="btn btn-primary btn-sm btn-circle swap swap-rotate drawer-button"
+            >
+              {/* <input type="checkbox" /> */}
+              <svg
+                className="swap-off fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 512 512"
+              >
+                <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+              </svg>
+
+              <svg
+                className="swap-on fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 512 512"
+              >
+                <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
+              </svg>
+            </label>
+          </div>
+
+          {children}
+        </article>
+
+        {/* drawer inner items */}
+        <div className="drawer-side">
+          <label
+            htmlFor="my-drawer"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          />
+
+          <aside className="bg-green-600 min-w-min py-4 min-h-screen flex flex-col">
+            <h2 className="text-2xl mb-4 text-center">
               <Link href={"/"} className="text-white">
                 {"Caram"}
               </Link>
-            </Heading>
+            </h2>
 
-            <Flex direction={"column"} py={"4"}>
-              <DashboardSideLinks />
-            </Flex>
+            <DashboardSideLinks />
 
-            <Box px={"2"} className="mt-auto">
-              <ThemeChanger />
-            </Box>
-          </Flex>
-        </aside>
-      </Box>
-
-      <Box asChild p={"4"} className="ml-36">
-        <article>{children}</article>
-      </Box>
+            <ThemeChanger className="dropdown-top mt-auto px-2" />
+          </aside>
+        </div>
+      </div>
     </>
   );
 }

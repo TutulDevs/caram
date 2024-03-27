@@ -15,18 +15,20 @@ export const DashboardSideLinks: React.FC = () => {
 
   return (
     <>
-      {dashboardLinks.map((item) => (
-        <Link
-          key={item.id}
-          href={item.href}
-          className={cn(
-            "p-2 transition-all duration-200 hover:bg-black text-white hover:text-green-700",
-            { "bg-black text-green-700": pathname == item.href },
-          )}
-        >
-          {item.title}
-        </Link>
-      ))}
+      <div className="flex flex-col py-4">
+        {dashboardLinks.map((item) => (
+          <Link
+            key={item.id}
+            href={item.href}
+            className={cn("btn rounded-none text-start justify-start", {
+              "btn-primary btn-active": pathname == item.href,
+              "btn-neutral": pathname !== item.href,
+            })}
+          >
+            {item.title}
+          </Link>
+        ))}
+      </div>
     </>
   );
 };

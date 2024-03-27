@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "@radix-ui/themes/styles.css";
 import "./globals.css";
-import { Theme, ThemePanel } from "@radix-ui/themes";
-import { ThemeProvider } from "next-themes";
+import { DAISY_UI_LIGHT_THEME } from "@/src/lib/coreconstants";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,15 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={poppins.className}>
-        <ThemeProvider attribute="class">
-          <Theme accentColor="jade">
-            {children}
-            {/* <ThemePanel /> */}
-          </Theme>
-        </ThemeProvider>
-      </body>
+    <html lang="en" data-theme={DAISY_UI_LIGHT_THEME} suppressHydrationWarning>
+      <body className={poppins.className}>{children}</body>
     </html>
   );
 }
