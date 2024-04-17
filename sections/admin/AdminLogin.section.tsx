@@ -1,129 +1,96 @@
 "use client";
 
+import { LoginInput } from "@/components/inputs_fields/LoginInput.component";
 import { loginStuffFormState, loginStuffSchema } from "@/src/lib/form_schemas";
-import { loginStuffAction } from "@/src/lib/server-actions";
 import { zodResolver } from "@hookform/resolvers/zod";
-import cn from "classnames";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export const AdminLogin = () => {
-  const [state, formAction] = useFormState(loginStuffAction, {
-    email: "",
-    password: "",
-  });
+  const router = useRouter();
 
-  const form = useForm<loginStuffFormState>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<loginStuffFormState>({
     resolver: zodResolver(loginStuffSchema),
     defaultValues: {
-      // email: "",
-      // password: "",
-      ...(state?.fields ?? {}),
+      email: "",
+      password: "",
     },
   });
 
-  console.log("caram: state", state);
-  // console.log("caram: form", form);
-
-  const formRef = useRef<HTMLFormElement>(null);
+  const onSubmit = async (data: loginStuffFormState) => {
+    try {
+      console.log("caram: data", data);
+      toast.success("Logged In Successfully");
+      router.push("/admin/dashboard");
+    } catch (error) {
+      toast.error("Logged In Failed!");
+    }
+  };
 
   const { pending } = useFormStatus();
 
   return (
     <>
-      <FormProvider {...form}>
-        <div className="min-w-full sm:min-w-96">
-          <h2 className={"text-center text-4xl font-bold text-primary mb-4"}>
-            Hello Stuff
-          </h2>
+      <div className="min-w-full sm:min-w-96">
+        <h2 className={"text-center text-4xl font-bold text-primary mb-4"}>
+          Hello Stuff
+        </h2>
 
-          {state?.message !== "" && !state?.issues && (
-            <div className="text-red-500">{state?.message}</div>
-          )}
-          {state?.issues && (
-            <div className="text-red-500">
-              <ul>
-                {state.issues.map((issue) => (
-                  <li key={issue} className="flex gap-1">
-                    {/* <X fill="red" /> */}
-                    {issue}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <form
-            ref={formRef}
-            action={formAction}
-            onSubmit={(evt) => {
-              evt.preventDefault();
-              form.handleSubmit(() => {
-                formAction(new FormData(formRef.current!));
-              })(evt);
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          {/* email */}
+          <LoginInput
+            label="Email"
+            err={errors.email?.message}
+            inputProps={{
+              type: "email",
+              placeholder: "admin@mail.com",
+              autoComplete: "off",
+              required: true,
+              ...register("email", {
+                required: "Email is required",
+              }),
             }}
-            className="flex flex-col gap-4"
+          />
+
+          {/* password */}
+          <LoginInput
+            label="Password"
+            err={errors.password?.message}
+            inputProps={{
+              type: "password",
+              placeholder: "Enter password",
+              autoComplete: "off",
+              required: true,
+              ...register("password", {
+                required: "Password is required",
+              }),
+            }}
+          />
+
+          {/* btn */}
+          <button
+            type="submit"
+            disabled={pending}
+            className="btn btn-primary disabled:bg-red-500 mt-4"
           >
-            {/* email */}
-            <label
-              className={cn(
-                "input input-bordered input-primary flex items-center gap-2",
-                {
-                  "input-error": false,
-                },
-              )}
-            >
-              Email
-              <input
-                type="email"
-                name="email"
-                className="grow"
-                placeholder="admin@mail.com"
-                autoComplete="off"
-                required
-              />
-            </label>
+            {pending ? "..." : "Login"}
+          </button>
 
-            {/* password */}
-            <label
-              className={cn(
-                "input input-bordered input-primary flex items-center gap-2",
-                {
-                  "input-error": false,
-                },
-              )}
-            >
-              Password
-              <input
-                type="password"
-                name="password"
-                className="grow"
-                placeholder="Enter password"
-                autoComplete="off"
-                required
-              />
-            </label>
-
-            {/* btn */}
-            <button
-              type="submit"
-              disabled={pending}
-              className="btn btn-primary disabled:bg-red-500 mt-4"
-            >
-              {pending ? "..." : "Login"}
-            </button>
-
-            <Link
-              href={"/admin/forgot-password"}
-              className="link link-secondary text-xs text-center"
-            >
-              {"Forgot password?"}
-            </Link>
-          </form>
-        </div>
-      </FormProvider>
+          <Link
+            href={"/admin/forgot-password"}
+            className="link link-secondary text-xs text-center"
+          >
+            {"Forgot password?"}
+          </Link>
+        </form>
+      </div>
     </>
   );
 };
