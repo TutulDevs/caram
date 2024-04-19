@@ -10,3 +10,5 @@
 - implement the functions
 - test
 - add authentication
+
+- https://github.dev/TailAdmin/free-nextjs-admin-dashboard
