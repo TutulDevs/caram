@@ -1,7 +1,12 @@
 import { Box, Heading, Text } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+  console.log("page: session: ", session);
+
   return (
     <main>
       <div className="hero min-h-screen bg-base-200">

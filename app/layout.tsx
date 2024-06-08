@@ -21,7 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme={DAISY_UI_LIGHT_THEME} suppressHydrationWarning>
+    <html
+      lang="en"
+      dir={"ltr"}
+      data-theme={DAISY_UI_LIGHT_THEME}
+      suppressHydrationWarning
+    >
       <body className={poppins.className}>
         <Toaster position="bottom-center" />
 
