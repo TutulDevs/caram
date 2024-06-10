@@ -1,7 +1,9 @@
 "use client";
-
-import { LoginInput } from "@/components/inputs_fields/LoginInput.component";
-import { loginStuffFormState, loginStuffSchema } from "@/src/lib/form_schemas";
+import { LoginInput } from "@/src/components/inputs_fields/LoginInput.component";
+import {
+  loginStuffFormState,
+  loginStuffSchema,
+} from "@/src/lib/helpers/form_schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

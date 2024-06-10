@@ -1,5 +1,5 @@
-import { ThemeChanger } from "@/components/theme_changer/ThemeChanger.component";
-import { DashboardSideLinks } from "@/sections/dashboard/DashboardSideLinks.section";
+import { ThemeChanger } from "@/src/components/theme_changer/ThemeChanger.component";
+import { DashboardSideLinks } from "@/src/sections/dashboard/DashboardSideLinks.section";
 import { Metadata } from "next";
 import Link from "next/link";
 

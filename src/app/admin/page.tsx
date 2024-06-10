@@ -1,4 +1,4 @@
-import { AdminLogin } from "@/sections/admin/AdminLogin.section";
+import { AdminLogin } from "@/src/sections/admin/AdminLogin.section";
 import cn from "classnames";
 
 export default function AdminPage() {

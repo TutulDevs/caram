@@ -1,12 +1,12 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcrypt";
+import prisma from "@/src/lib/config/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Session, User as NextAuthUser } from "next-auth";
-import { db } from "@/src/lib/config/db";
+import { JWT } from "next-auth/jwt";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -19,11 +19,14 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await db.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        if (
+          user &&
+          (await bcrypt.compare(credentials.password, user.password))
+        ) {
           return user;
         }
 
@@ -31,23 +34,26 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
   pages: {
-    signIn: "/login", // Redirect to custom login page
-    error: "/login", // Redirect to custom login page with error message
+    signIn: "/login",
+    error: "/login",
   },
   callbacks: {
-    async session({ session, token, user }): Promise<Session> {
+    async session({ session, token }): Promise<Session> {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as string;
+        session.user.id = token.id as unknown as string;
+        session.user.role = token.role;
       }
       return session;
     },
-    async jwt({ token, user }): Promise<any> {
+    async jwt({ token, user }): Promise<JWT> {
       if (user) {
-        token.id = user.id;
+        token.id = user.id as unknown as number;
         token.role = user.role;
       }
       return token;
@@ -55,9 +61,6 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-  return NextAuth(req, res, authOptions);
-};
+const handler = NextAuth(authOptions);
 
-export const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

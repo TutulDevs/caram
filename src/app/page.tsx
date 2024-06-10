@@ -1,11 +1,11 @@
 import { Box, Heading, Text } from "@radix-ui/themes";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  console.log("page: session: ", session);
+  // const session = await getServerSession(authOptions);
+  // console.log("page: session: ", session);
 
   return (
     <main>

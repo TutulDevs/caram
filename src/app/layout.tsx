@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { DAISY_UI_LIGHT_THEME } from "@/src/lib/coreconstants";
 import { Toaster } from "react-hot-toast";
+import { DAISY_UI_LIGHT_THEME } from "../lib/helpers/coreconstants";
 
 const poppins = Poppins({
   subsets: ["latin"],

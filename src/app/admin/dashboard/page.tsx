@@ -1,5 +1,5 @@
-import { DashboardPointTable } from "@/sections/dashboard/DashboardPointTable.section";
-import { DashboardStats } from "@/sections/dashboard/DashboardStats.section";
+import { DashboardPointTable } from "@/src/sections/dashboard/DashboardPointTable.section";
+import { DashboardStats } from "@/src/sections/dashboard/DashboardStats.section";
 
 export default function DashboardPage() {
   return (

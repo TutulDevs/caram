@@ -1,8 +1,12 @@
 import type { Config } from "tailwindcss";
-import { DAISY_UI_DARK_THEME, DAISY_UI_THEMES } from "./src/lib/coreconstants";
+import {
+  DAISY_UI_DARK_THEME,
+  DAISY_UI_THEMES,
+} from "./src/lib/helpers/coreconstants";
 
 const config: Config = {
   content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./sections/**/*.{js,ts,jsx,tsx,mdx}",
