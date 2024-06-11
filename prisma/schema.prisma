@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id         Int      @id @default(autoincrement())
   email      String   @unique
@@ -28,4 +27,107 @@ model User {
 enum Role {
   SUPER_ADMIN
   STAFF
+}
+
+model Player {
+  player_id       Int      @id @default(autoincrement())
+  name            String
+  status          PlayerStatus
+  github          String?  @default("")
+  twitter         String?  @default("")
+  team            Team?    @relation(fields: [team_id], references: [team_id])
+  team_id         Int?
+  PlayerMatch     PlayerMatch[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum PlayerStatus {
+  ACTIVE
+  INACTIVE
+  RETIRED
+}
+
+model Team {
+  team_id     Int       @id @default(autoincrement())
+  team_name   String
+  players     Player[]
+  matches1    Match[]   @relation("matches1")
+  matches2    Match[]   @relation("matches2")
+  winners     Match[]   @relation("winners")
+  matchScores MatchScore[]
+  pointTables PointTable[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Tournament {
+  tournament_id Int       @id @default(autoincrement())
+  name          String
+  year          Int
+  session       String
+  matches       Match[]
+  pointTable    PointTable? 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([tournament_id], name: "Unique_Tournament_PointTable") 
+}
+
+model PointTable {
+  point_table_id  Int       @id @default(autoincrement())
+  tournament      Tournament @relation(fields: [tournament_id], references: [tournament_id])
+  tournament_id   Int       @unique  
+  matches_played  Int
+  matches_won     Int
+  matches_lost    Int
+  matches_tied    Int
+  points          Int
+  net_rate        Float
+  team            Team[]    
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Match {
+  match_id      Int         @id @default(autoincrement())
+  date          DateTime
+  result        String
+  winner_team_id Int?
+  match_type    String
+  tournament_id Int
+  tournament    Tournament  @relation(fields: [tournament_id], references: [tournament_id])
+  team1_id      Int
+  team2_id      Int
+  team1         Team        @relation("matches1", fields: [team1_id], references: [team_id])
+  team2         Team        @relation("matches2", fields: [team2_id], references: [team_id])
+  winner        Team?       @relation("winners", fields: [winner_team_id], references: [team_id])
+  matchScores   MatchScore[]
+  playerMatches PlayerMatch[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model MatchScore {
+  match_score_id Int    @id @default(autoincrement())
+  points         Int
+  net_rate       Float
+  match_id       Int
+  match          Match  @relation(fields: [match_id], references: [match_id])
+  team_id        Int
+  team           Team   @relation(fields: [team_id], references: [team_id])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model PlayerMatch {
+  player_match_id Int     @id @default(autoincrement())
+  points          Int
+  performance     String
+  match_id        Int
+  match           Match   @relation(fields: [match_id], references: [match_id])
+  player_id       Int
+  player          Player  @relation(fields: [player_id], references: [player_id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
