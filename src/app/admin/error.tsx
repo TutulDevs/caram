@@ -1,5 +1,4 @@
 "use client"; // Error components must be Client Components
-
 import { useEffect } from "react";
 
 export default function Error({
@@ -11,22 +10,28 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error("caram: err", error);
+    console.error("err: ", error);
   }, [error]);
 
-  console.error("caram: err", error);
-
   return (
-    <div>
-      <h2>Something went wrong!</h2>
+    <div className="w-full h-full flex flex-col justify-center items-center gap-6 text-center">
+      <h2 className="text-3xl text-red-500 font-semibold">
+        Something went wrong!
+      </h2>
+
       <button
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()
         }
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
       >
-        Try again
+        Try Again
       </button>
+
+      <div className="text-left">
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </div>
     </div>
   );
 }
