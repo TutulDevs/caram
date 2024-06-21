@@ -1,4 +1,7 @@
-import { getPlayers, getTournamentCount } from "@/src/lib/helpers/api_call";
+import {
+  getPlayersCount,
+  getTournamentCount,
+} from "@/src/lib/helpers/api_call";
 import cn from "classnames";
 import { PiUsersThreeBold } from "react-icons/pi";
 import { RiGameLine } from "react-icons/ri";
@@ -8,9 +11,7 @@ export const DashboardStats: React.FC<{ className?: string }> = async ({
   className,
 }) => {
   try {
-    const players = await getPlayers();
-    const playerCount = players?.length;
-
+    const playerCount = await getPlayersCount();
     const tournamentCount = await getTournamentCount();
 
     // console.log("dash: ", { players, tournamentCount });

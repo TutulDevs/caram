@@ -1,35 +1,32 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+
+type FORM = {
+  email: string;
+  password: string;
+};
 
 export const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  // const { data: session } = useSession();
+  const params = useSearchParams();
+  const callbackUrl = decodeURIComponent(params.get("callbackUrl") ?? "");
 
-  // const params = useSearchParams();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FORM>({ mode: "all" });
 
-  // const err = params.get("error") ?? "";
-
-  // useEffect(() => {
-  //   if (err) setError("Invalid email or password");
-  // }, [err]);
-
-  // useEffect(() => {
-  //   if (session) router.push("/admin");
-  // }, [session, router]);
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: FORM) => {
     try {
       const res = await signIn("credentials", {
-        email,
-        password,
-        callbackUrl: "/admin",
+        email: data.email,
+        password: data.password,
+        callbackUrl: callbackUrl || "/admin",
       });
 
       console.log("res: ", res);
@@ -47,7 +44,7 @@ export const LoginForm = () => {
   return (
     <>
       {error && <p className="text-red-500">{error}</p>}
-      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="rounded-md shadow-sm">
           <div>
             <label htmlFor="email" className="sr-only">
@@ -55,15 +52,18 @@ export const LoginForm = () => {
             </label>
             <input
               id="email"
-              name="email"
               type="email"
               autoComplete="email"
               required
               className="relative block w-full px-3 py-2 border border-gray-300 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email", {
+                required: "Email is required!",
+              })}
             />
+            {errors.email?.message && (
+              <small className="text-accent px-1">{errors.email.message}</small>
+            )}
           </div>
           <div>
             <label htmlFor="password" className="sr-only">
@@ -71,15 +71,20 @@ export const LoginForm = () => {
             </label>
             <input
               id="password"
-              name="password"
               type="password"
               autoComplete="current-password"
               required
               className="relative block w-full px-3 py-2 border border-gray-300 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", {
+                required: "Password is required",
+              })}
             />
+            {errors.password?.message && (
+              <small className="text-accent px-1">
+                {errors.password.message}
+              </small>
+            )}
           </div>
         </div>
 

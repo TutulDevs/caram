@@ -1,15 +1,15 @@
 const basePath = process.env.BASE_API_URL;
 
-export const getPlayers = async () => {
+export const getPlayersCount = async () => {
   // await new Promise((resolve) => setTimeout(resolve, 15 * 1000));  // just to test
 
-  const res = await fetch(basePath + "/players");
+  const res = await fetch(basePath + "/players/count");
   if (!res.ok) {
     throw new Error("Failed to fetch players");
   }
   const players = await res.json();
 
-  return players;
+  return players.count;
 };
 
 export const getTournamentCount = async () => {
