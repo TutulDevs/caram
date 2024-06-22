@@ -1,11 +1,9 @@
-import { Box, Heading, Text } from "@radix-ui/themes";
 import Link from "next/link";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "./api/auth/[...nextauth]/route";
+import { getAuthInfo } from "../lib/helpers/api_call";
 
 export default async function Home() {
-  // const session = await getServerSession(authOptions);
-  // console.log("page: session: ", session);
+  const { isLoggedIn } = await getAuthInfo();
+  // console.log("page: home session: ", session);
 
   return (
     <main>
@@ -20,8 +18,11 @@ export default async function Home() {
               {"I'm working hard to bring you something amazing. Stay tuned!"}
             </p>
 
-            <Link href={"/admin"} className="btn btn-primary px-8">
-              Login
+            <Link
+              href={!isLoggedIn ? "/login" : "/admin"}
+              className="btn btn-primary px-8"
+            >
+              {!isLoggedIn ? "Login" : "Dashboard"}
             </Link>
           </div>
         </div>

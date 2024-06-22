@@ -1,4 +1,5 @@
 import { LoginForm } from "@/src/sections/admin/Login.section";
+import { Suspense } from "react";
 
 const LoginPage = () => {
   return (
@@ -6,7 +7,9 @@ const LoginPage = () => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded shadow-lg">
         <h2 className="text-2xl font-bold text-center">Login</h2>
 
-        <LoginForm />
+        <Suspense fallback={<>Loading...</>}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );

@@ -1,3 +1,6 @@
+import { authOptions } from "@/src/lib/config/authOptions";
+import { getServerSession } from "next-auth";
+
 const basePath = process.env.BASE_API_URL;
 
 export const getPlayersCount = async () => {
@@ -22,4 +25,13 @@ export const getTournamentCount = async () => {
   const tournaments = await res.json();
 
   return tournaments.count;
+};
+
+export const getAuthInfo = async () => {
+  const session = await getServerSession(authOptions);
+
+  return {
+    isLoggedIn: !!session,
+    user: session?.user ? session.user : null,
+  };
 };

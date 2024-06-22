@@ -1,5 +1,6 @@
 import { ThemeChanger } from "@/src/components/theme_changer/ThemeChanger.component";
 import { DashboardSideLinks } from "@/src/sections/dashboard/DashboardSideLinks.section";
+import { LogoutButton } from "@/src/components/logout_button/LogoutButton.component";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -60,8 +61,8 @@ export default function DashboardLayout({
             className="drawer-overlay"
           />
 
-          <aside className="bg-green-600 min-w-min py-4 min-h-screen flex flex-col">
-            <h2 className="text-2xl mb-4 text-center">
+          <aside className="bg-green-600 min-w-min py-4 min-h-screen flex flex-col gap-2">
+            <h2 className="text-2xl text-center">
               <Link href={"/"} className="text-white">
                 {"Caram"}
               </Link>
@@ -69,7 +70,8 @@ export default function DashboardLayout({
 
             <DashboardSideLinks />
 
-            <ThemeChanger className="dropdown-top mt-auto px-2" />
+            <LogoutButton className="mt-auto mx-2" />
+            <ThemeChanger className="dropdown-top px-2" />
           </aside>
         </div>
       </div>

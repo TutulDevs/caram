@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
 import { DAISY_UI_LIGHT_THEME } from "../lib/helpers/coreconstants";
+import { Providers } from "../components/providers/Providers.component";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -28,9 +28,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={poppins.className}>
-        <Toaster position="bottom-center" />
-
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

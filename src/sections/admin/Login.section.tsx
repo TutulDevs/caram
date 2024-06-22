@@ -1,8 +1,9 @@
 "use client";
+import { REDIRECT_URLS } from "@/src/lib/helpers/coreconstants";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type FORM = {
   email: string;
@@ -10,10 +11,10 @@ type FORM = {
 };
 
 export const LoginForm = () => {
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const params = useSearchParams();
   const callbackUrl = decodeURIComponent(params.get("callbackUrl") ?? "");
+  const error = params.get("error") ?? "";
 
   const {
     handleSubmit,
@@ -26,18 +27,22 @@ export const LoginForm = () => {
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
-        callbackUrl: callbackUrl || "/admin",
+        callbackUrl: callbackUrl || REDIRECT_URLS.ADMIN,
+        redirect: false,
       });
 
-      console.log("res: ", res);
+      // console.log('res: ',res)
 
+      // this blocks will run only if redirect: false,
       if (res?.error) {
-        setError("Invalid email or password");
+        toast.error("Invalid email or password!");
       } else {
-        router.push(res?.url || "/admin");
+        toast.success("Login Successful");
+        router.push(res?.url || REDIRECT_URLS.ADMIN);
       }
     } catch (error) {
       console.log("err: ", error);
+      toast.error("Login Failed!");
     }
   };
 
