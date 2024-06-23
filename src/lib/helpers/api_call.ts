@@ -1,10 +1,11 @@
 import { authOptions } from "@/src/lib/config/authOptions";
 import { getServerSession } from "next-auth";
+import { delayPromise } from "./corefunctions";
 
 const basePath = process.env.BASE_API_URL;
 
 export const getPlayersCount = async () => {
-  // await new Promise((resolve) => setTimeout(resolve, 15 * 1000));  // just to test
+  // await delayPromise(15)  // just to test
 
   const res = await fetch(basePath + "/players/count");
   if (!res.ok) {
@@ -34,4 +35,17 @@ export const getAuthInfo = async () => {
     isLoggedIn: !!session,
     user: session?.user ? session.user : null,
   };
+};
+
+export const getPointTable = async () => {
+  // await delayPromise(10);
+  const res = await fetch(basePath + "/point-table", {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch point table");
+  }
+  const pointTable = await res.json();
+
+  return pointTable;
 };

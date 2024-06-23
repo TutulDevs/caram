@@ -7,3 +7,7 @@ export const updateSearchParams = (
 
   // updateSearchParams.set(param,value )
 };
+
+export const delayPromise = async (second = 1) => {
+  await new Promise((resolve) => setTimeout(resolve, 15 * 1000));
+};

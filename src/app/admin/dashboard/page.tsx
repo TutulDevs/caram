@@ -1,4 +1,4 @@
-import { DashboardPointTable } from "@/src/sections/dashboard/DashboardPointTable.section";
+import { DashboardPointTable } from "@/src/sections/dashboard/dashboard_point_table/DashboardPointTable.section";
 import { DashboardStatCardSkeleton } from "@/src/sections/dashboard/dashboard_stats/DashboardStatCardSkeleton.section";
 import { DashboardStats } from "@/src/sections/dashboard/dashboard_stats/DashboardStats.section";
 import { Suspense } from "react";
