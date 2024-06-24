@@ -4,6 +4,18 @@ import { delayPromise } from "./corefunctions";
 
 const basePath = process.env.BASE_API_URL;
 
+export const getPlayersAll = async () => {
+  // await delayPromise(15)  // just to test
+
+  const res = await fetch(basePath + "/players/all");
+  if (!res.ok) {
+    throw new Error("Failed to fetch players");
+  }
+  const players = await res.json();
+
+  return players;
+};
+
 export const getPlayersCount = async () => {
   // await delayPromise(15)  // just to test
 
