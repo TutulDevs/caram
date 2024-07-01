@@ -7,7 +7,9 @@ const basePath = process.env.BASE_API_URL;
 export const getPlayersAll = async () => {
   // await delayPromise(15)  // just to test
 
-  const res = await fetch(basePath + "/players/all");
+  const res = await fetch(basePath + "/players/all", {
+    cache: "no-store",
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch players");
   }

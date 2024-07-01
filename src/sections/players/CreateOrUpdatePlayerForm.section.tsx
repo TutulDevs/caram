@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Input } from "@/src/components/forms/Input.component";
 import { Radio } from "@/src/components/forms/Radio.component";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type FORM = {
   name: string;
@@ -26,21 +27,21 @@ export const CreateOrUpdatePlayerForm: React.FC<{}> = ({}) => {
 
   const onSubmit = async (data: FORM) => {
     try {
-      console.log("player: create: ", data);
-      // const response = await fetch('/api/player', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(data),
-      // });
+      // console.log("player: create: ", data);
+      const res = await fetch("/api/players/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-      // if (response.ok) {
-      //   toast.success('Player created successfully!');
-      //   router.push('/players');
-      // } else {
-      //   toast.error('Failed to create player');
-      // }
+      if (res.ok) {
+        toast.success("Player created successfully!");
+        router.push("/admin/players");
+      } else {
+        toast.error("Failed to create player");
+      }
     } catch (error) {
       toast.error("An error occurred");
     }

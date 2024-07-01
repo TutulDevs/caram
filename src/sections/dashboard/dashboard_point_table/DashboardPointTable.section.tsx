@@ -49,7 +49,7 @@ const TableBody = async () => {
       </tr>
     ) : (
       list.map((item, idx) => (
-        <DashboardPointTableItem item={item} index={idx + 1} />
+        <DashboardPointTableItem key={item.point_table_id} item={item} index={idx + 1} />
       ))
     );
   } catch (error: any) {
