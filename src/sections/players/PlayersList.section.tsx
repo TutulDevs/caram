@@ -9,6 +9,7 @@ import { TbEditCircle, TbClockHour12, TbClockHour3 } from "react-icons/tb";
 import Link from "next/link";
 import cn from "classnames";
 import { dateTimeDisplayer } from "@/src/lib/helpers/corefunctions";
+import { UpdatePlayerActionBtn } from "./PlayerActionBtns.section";
 
 export const PlayersList = async () => {
   try {
@@ -114,13 +115,10 @@ export const PlayersList = async () => {
                   )}
                 </span>
 
-                <Link
-                  href={`/admin/player/${player.player_id}`}
+                <UpdatePlayerActionBtn
+                  player={player}
                   className="btn btn-primary btn-circle btn-sm tooltip tooltip-primary flex items-center"
-                  data-tip={"update info"}
-                >
-                  <TbEditCircle />
-                </Link>
+                />
               </div>
             </div>
           </div>

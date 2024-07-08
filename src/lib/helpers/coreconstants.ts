@@ -7,3 +7,7 @@ export enum REDIRECT_URLS {
   LOGIN = "/login",
   ADMIN = "/admin",
 }
+
+export enum MODAL_IDS {
+  CREATE_OR_UPDATE_PLAYER = "create_or_update_player",
+}
