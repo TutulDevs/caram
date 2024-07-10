@@ -37,26 +37,35 @@ export const CreateOrUpdatePlayerForm: React.FC<{
   } = methods;
   const router = useRouter();
 
-  console.log('player: ', player,onSuccess)
+  const endpoint = !player ? "/api/players/create" : "/api/players/update";
+  const method = !player ? "POST" : "PUT";
+  const messageSuccess = !player
+    ? "Player created successfully!"
+    : "Player updated successfully!";
+  const messageError = !player
+    ? "Failed to create player!"
+    : "Failed to update player!";
 
   const onSubmit = async (data: FORM) => {
     try {
-      console.log("player: create: ", data);
-      // const res = await fetch("/api/players/create", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(data),
-      // });
+      // console.log("player: create: ", data);
 
-      // if (res.ok) {
-      //   toast.success("Player created successfully!");
-      //   router.refresh();
-      //   onSuccess && onSuccess();
-      // } else {
-      //   toast.error("Failed to create player");
-      // }
+      // if player, update. else create
+      const res = await fetch(endpoint, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        toast.success(messageSuccess);
+        router.refresh();
+        onSuccess && onSuccess();
+      } else {
+        toast.error(messageError);
+      }
     } catch (error) {
       toast.error("An error occurred");
     }
@@ -64,12 +73,6 @@ export const CreateOrUpdatePlayerForm: React.FC<{
 
   return (
     <>
-
-<pre>
-  {JSON.stringify(player, null, 2)}
-</pre>
-
-
       <h2 className="text-2xl font-bold text-center mb-6">
         {!player ? "Create A Player" : "Update " + player?.name}
       </h2>

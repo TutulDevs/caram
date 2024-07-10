@@ -1,63 +1,118 @@
 "use client";
-import useModal from "@/src/lib/hooks/useModal";
+import * as Dialog from "@radix-ui/react-dialog";
 import cn from "classnames";
 
-export const Modal: React.FC<{
-  id: string;
+type ModalSizeType =
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "6xl"
+  | "7xl";
+
+interface ModalProps extends Dialog.DialogProps {
+  trigger: React.ReactNode;
+  children: React.ReactNode;
   title?: React.ReactNode;
-  children?: React.ReactNode;
+  classNameTitle?: string;
+  desc?: React.ReactNode;
+  classNameDesc?: string;
+  stopOutsideClose?: boolean;
+  size?: ModalSizeType;
   className?: string;
-  outsideClose?: boolean;
-}> = ({ id, title, children, className, outsideClose }) => {
+}
 
-  const {isOpen, openModal, closeModal} = useModal(id)
-
-
-  
-  return (
-    <>
-      <dialog id={id} className="modal" open={isOpen} >
-        <div className={cn("modal-box", className)}>
-          {/* close */}
-          {/* <ModalCloseForm outsideClose={outsideClose} /> */}
-          <button type='button'
-        className={cn(
-          "btn btn-sm btn-circle btn-ghost absolute right-2 top-2",
-          {
-            ["border border-neutral text-black"]: outsideClose,
-          },
-        )}
-        onClick={closeModal}
-      >
-        ✕
-      </button>
-
-          {/* title */}
-          {title && <h3 className="font-bold text-2xl mb-2">{title}</h3>}
-
-          {/* content */}
-          {children}
-        </div>
-      </dialog>
-    </>
-  );
+const sizeVariants: {
+  [key in ModalSizeType]: string;
+} = {
+  sm: "max-w-sm",
+  md: "max-w-md",
+  lg: "max-w-lg",
+  xl: "max-w-xl",
+  "2xl": "max-w-2xl",
+  "3xl": "max-w-3xl",
+  "4xl": "max-w-4xl",
+  "5xl": "max-w-5xl",
+  "6xl": "max-w-6xl",
+  "7xl": "max-w-7xl",
 };
 
-const ModalCloseForm: React.FC<{ outsideClose?: boolean }> = ({
-  outsideClose,
+export const Modal: React.FC<ModalProps> = ({
+  trigger,
+  children,
+  title,
+  classNameTitle,
+  desc,
+  classNameDesc,
+  stopOutsideClose,
+  size = "3xl",
+  className,
+  ...props
 }) => {
   return (
-    <form method="dialog" className={cn({ ["modal-backdrop"]: outsideClose })}>
-      <button
-        className={cn(
-          "btn btn-sm btn-circle btn-ghost absolute right-2 top-2",
-          {
-            ["border border-neutral text-black"]: outsideClose,
-          },
-        )}
-      >
-        ✕
-      </button>
-    </form>
+    <>
+      <Dialog.Root {...props}>
+        {/* trigger btn */}
+        <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+
+        <Dialog.Portal>
+          {/* overlay */}
+          <Dialog.Overlay
+            className={cn(
+              "bg-base-200/50 data-[state=open]:animate-overlayShow fixed inset-0",
+            )}
+          />
+
+          <Dialog.Content
+            className={cn(
+              "data-[state=open]:animate-contentShow fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 focus:outline-none",
+              "modal-box",
+              { [sizeVariants[size]]: size },
+              className,
+            )}
+            onEscapeKeyDown={(e) => stopOutsideClose && e.preventDefault()}
+            onPointerDownOutside={(e) => stopOutsideClose && e.preventDefault()}
+          >
+            {/* title */}
+            {title && (
+              <Dialog.Title className={cn("text-xl font-bold", classNameTitle)}>
+                {title}
+              </Dialog.Title>
+            )}
+
+            {/* description */}
+            {desc && (
+              <Dialog.Description
+                className={cn(
+                  "text-base-content/80 mt-3 mb-5 leading-normal",
+                  classNameDesc,
+                )}
+              >
+                {desc}
+              </Dialog.Description>
+            )}
+
+            {/* content */}
+            {children}
+
+            {/* close */}
+            <Dialog.Close asChild>
+              <button
+                className={cn(
+                  "btn btn-sm btn-circle btn-ghost absolute right-2 top-2 appearance-none",
+                )}
+                aria-label="Close"
+              >
+                {"✕"}
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </>
   );
 };
