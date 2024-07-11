@@ -1,5 +1,5 @@
 import { getPointTable } from "@/src/lib/helpers/api_call";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 import { DashboardPointTableItem } from "./DashboardPointTableItem.section";
 import { PointTable } from "@prisma/client";
 import { Suspense } from "react";
@@ -49,7 +49,11 @@ const TableBody = async () => {
       </tr>
     ) : (
       list.map((item, idx) => (
-        <DashboardPointTableItem key={item.point_table_id} item={item} index={idx + 1} />
+        <DashboardPointTableItem
+          key={item.point_table_id}
+          item={item}
+          index={idx + 1}
+        />
       ))
     );
   } catch (error: any) {

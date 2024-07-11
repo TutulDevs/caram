@@ -1,6 +1,6 @@
 "use client";
 import useModal from "@/src/lib/hooks/useModal";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 export const Dialog: React.FC<{
   id: string;

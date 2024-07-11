@@ -1,4 +1,6 @@
 import { format as dateFnsFormat, compareAsc } from "date-fns";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const updateSearchParams = (
   params: string,
@@ -19,3 +21,7 @@ export const dateTimeDisplayer = (date: string | number | Date) => {
 
   return dateFnsFormat(date, "dd MMM y h:mm a");
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

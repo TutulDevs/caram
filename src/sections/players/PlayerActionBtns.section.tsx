@@ -1,5 +1,5 @@
 "use client";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 import { AiOutlinePlus } from "react-icons/ai";
 import { CreateOrUpdatePlayerForm } from "./CreateOrUpdatePlayerForm.section";
 import { TbEditCircle } from "react-icons/tb";

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 const dashboardLinks = [
   { id: 1, title: "Dashboard", icon: "", href: "/admin/dashboard" },

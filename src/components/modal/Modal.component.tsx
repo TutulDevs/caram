@@ -1,6 +1,6 @@
 "use client";
 import * as Dialog from "@radix-ui/react-dialog";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 type ModalSizeType =
   | "sm"

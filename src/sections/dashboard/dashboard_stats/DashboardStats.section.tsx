@@ -2,7 +2,7 @@ import {
   getPlayersCount,
   getTournamentCount,
 } from "@/src/lib/helpers/api_call";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 import { PiUsersThreeBold } from "react-icons/pi";
 import { RiGameLine } from "react-icons/ri";
 import { DashboardStatItem } from "./DashboardStatItem.section";

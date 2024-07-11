@@ -1,6 +1,6 @@
 "use client";
 import { signOut } from "next-auth/react";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 import { REDIRECT_URLS } from "@/src/lib/helpers/coreconstants";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";

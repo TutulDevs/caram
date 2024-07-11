@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { DAISY_UI_LIGHT_THEME } from "../lib/helpers/coreconstants";
 import { Providers } from "../components/providers/Providers.component";
+import { cn } from "../lib/helpers/corefunctions";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,7 +28,12 @@ export default function RootLayout({
       data-theme={DAISY_UI_LIGHT_THEME}
       suppressHydrationWarning
     >
-      <body className={poppins.className}>
+      <body
+        className={cn(
+          poppins.className,
+          "duration-100 ease-in-out overflow-auto",
+        )}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -1,4 +1,4 @@
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 export const LoginInput: React.FC<{
   label?: string;

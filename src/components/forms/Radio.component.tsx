@@ -1,5 +1,6 @@
 "use client";
-import cn from "classnames";
+
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;

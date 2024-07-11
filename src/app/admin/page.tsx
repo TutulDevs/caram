@@ -1,5 +1,5 @@
+import { cn } from "@/src/lib/helpers/corefunctions";
 import { AdminLogin } from "@/src/sections/admin/AdminLogin.section";
-import cn from "classnames";
 
 export default function AdminPage() {
   return (

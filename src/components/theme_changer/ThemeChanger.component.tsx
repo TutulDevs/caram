@@ -1,5 +1,5 @@
 import { DAISY_UI_THEMES } from "@/src/lib/helpers/coreconstants";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 export const ThemeChanger: React.FC<{ className?: string }> = ({
   className,

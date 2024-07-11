@@ -1,5 +1,5 @@
 import Link from "next/link";
-import cn from "classnames";
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 export const NotFoundSection: React.FC<{ className?: string }> = ({
   className,
