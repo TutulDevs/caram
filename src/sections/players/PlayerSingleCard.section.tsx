@@ -8,14 +8,17 @@ import { TbClockHour12, TbClockHour3 } from "react-icons/tb";
 import Link from "next/link";
 import { cn } from "@/src/lib/helpers/corefunctions";
 import { dateTimeDisplayer } from "@/src/lib/helpers/corefunctions";
-import { UpdatePlayerActionBtn } from "./PlayerActionBtns.section";
+import {
+  DeletePlayerActionBtn,
+  UpdatePlayerActionBtn,
+} from "./PlayerActionBtns.section";
 
 export const PlayerSingleCard: React.FC<{ player: Player }> = ({ player }) => {
   return (
     <>
       <div
         key={player.player_id}
-        className="card bg-base-100 shadow-xl hover:shadow-md duration-150 ease-in"
+        className="card bg-base-100 shadow-xl hover:shadow-md duration-150 ease-in "
       >
         <div className="card-body flex flex-col">
           {/* user */}
@@ -106,6 +109,8 @@ export const PlayerSingleCard: React.FC<{ player: Player }> = ({ player }) => {
                 ""
               )}
             </span>
+
+            <DeletePlayerActionBtn player={player} />
 
             <UpdatePlayerActionBtn
               player={player}

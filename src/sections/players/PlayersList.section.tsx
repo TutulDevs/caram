@@ -1,6 +1,7 @@
 import { getPlayersAll } from "@/src/lib/helpers/api_call";
 import { Player } from "@prisma/client";
 import { PlayerSingleCard } from "./PlayerSingleCard.section";
+import { cn } from "@/src/lib/helpers/corefunctions";
 
 export const PlayersList = async () => {
   try {
@@ -10,7 +11,11 @@ export const PlayersList = async () => {
     return list.length == 0 ? (
       <div className="text-accent text-center">No Players Found!</div>
     ) : (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        className={cn(
+          "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+        )}
+      >
         {list.map((player) => (
           <PlayerSingleCard key={player.player_id} player={player} />
         ))}

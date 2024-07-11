@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "./globals.css";
+import "../styles/globals.css";
 import { DAISY_UI_LIGHT_THEME } from "../lib/helpers/coreconstants";
 import { Providers } from "../components/providers/Providers.component";
 import { cn } from "../lib/helpers/corefunctions";
